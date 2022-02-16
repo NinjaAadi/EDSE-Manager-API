@@ -18,12 +18,16 @@ const app = express();
 app.use(express.json());
 
 //import all the route files
-const studentProfile = require("./routes/student/student_profile");
-const Role = require("./routes/role/role");
+const studentProfileRoute = require("./routes/student/student_profile");
+const roleRoute = require("./routes/role/role");
+const courseRoute = require("./routes/course/course");
+const transportRoute = require("./routes/transport/transport");
 
 //routes
-app.use(`/${process.env.API_INITIAL_URL}profiles/student`, studentProfile);
-app.use(`/${process.env.API_INITIAL_URL}role/`, Role);
+app.use(`/${process.env.API_INITIAL_URL}profiles/student`, studentProfileRoute);
+app.use(`/${process.env.API_INITIAL_URL}role/`, roleRoute);
+app.use(`/${process.env.API_INITIAL_URL}course/`, courseRoute);
+app.use(`/${process.env.API_INITIAL_URL}transport/`, transportRoute);
 
 //Create the clusters
 // const numCpu = os.cpus().length;
