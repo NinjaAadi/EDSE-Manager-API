@@ -108,7 +108,7 @@ exports.updateTransportAddress = async (req, res, next) => {
       transportAddressId,
       transportAddressObj
     );
-    //If there is no course with this id then return error
+    //If there is no transport address with this id then return error
     if (transportAddressToUpdate == null) {
       return await errorHandler(
         res,
@@ -156,12 +156,12 @@ exports.deleteTransportAddress = async (req, res, next) => {
       );
     }
 
-    //Delete the course
+    //Delete the address
     const transportAddressToDelete = await transportSchema.findByIdAndDelete(
       transportAddressId
     );
 
-    //If there is no course with this id present
+    //If there is no address with this id present
     if (transportAddressToDelete == null) {
       return await errorHandler(
         res,
@@ -209,10 +209,10 @@ exports.getTransportAddressById = async (req, res, next) => {
       );
     }
 
-    //Get the course
+    //Get the address
     const transportAddress = await transportSchema.findById(transportAddressId);
 
-    //If there is no course with this id present
+    //If there is no address with this id present
     if (transportAddress == null) {
       return await errorHandler(
         res,
