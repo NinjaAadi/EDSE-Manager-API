@@ -1,9 +1,8 @@
-const logger = require("../../logger/logger");
 const errorHandler = require("../../error/error");
 const checkValid = require("../../validators/check_valid_value");
 const isValidId = require("../../validators/valid_objectid");
 //import the model
-const roleSchema = require("../../models/role");
+const roleSchema = require("../../models/role/role");
 
 /*
 @desc: Add a role value
