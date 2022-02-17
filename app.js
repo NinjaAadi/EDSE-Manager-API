@@ -3,6 +3,7 @@
 //For variables ---> lower + upperCase Start
 
 const express = require("express");
+const fileUpload = require("express-fileupload");
 const path = require("path");
 const env = require("dotenv").config({ path: path.join(__dirname, ".env") });
 const logger = require("./logger/logger");
@@ -12,7 +13,11 @@ const os = require("os");
 //Connect to the database
 const connectDb = require("./database/database_mongodb");
 connectDb();
+
 const app = express();
+
+//Middleware function for file upload
+app.use(fileUpload());
 
 /*Middleware function to use request.body */
 app.use(express.json());
@@ -24,7 +29,7 @@ const courseRoute = require("./routes/course/course");
 const transportRoute = require("./routes/transport/transport");
 
 //routes
-app.use(`/${process.env.API_INITIAL_URL}profiles/student`, studentProfileRoute);
+app.use(`/${process.env.API_INITIAL_URL}profile/student/`, studentProfileRoute);
 app.use(`/${process.env.API_INITIAL_URL}role/`, roleRoute);
 app.use(`/${process.env.API_INITIAL_URL}course/`, courseRoute);
 app.use(`/${process.env.API_INITIAL_URL}transport/`, transportRoute);

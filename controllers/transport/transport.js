@@ -106,7 +106,8 @@ exports.updateTransportAddress = async (req, res, next) => {
     //Update the field
     const transportAddressToUpdate = await transportSchema.findByIdAndUpdate(
       transportAddressId,
-      transportAddressObj
+      transportAddressObj,
+      { new: true }
     );
     //If there is no transport address with this id then return error
     if (transportAddressToUpdate == null) {

@@ -4,7 +4,6 @@ const isValidId = require("../../validators/valid_objectid");
 //Import the model
 const courseSchema = require("../../models/course/course");
 
-
 /*
 @desc: Add a course
 @access: Private
@@ -113,7 +112,8 @@ exports.updateCourse = async (req, res, next) => {
     //Update the field
     const courseToUpdate = await courseSchema.findByIdAndUpdate(
       courseId,
-      courseObj
+      courseObj,
+      { new: true }
     );
     //If there is no course with this id then return error
     if (courseToUpdate == null) {
