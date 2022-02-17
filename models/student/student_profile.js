@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
-const { profile } = require("../logger/logger");
 
 const studentProfile = new mongoose.Schema({
-  profileImage: {
+  profileImageURL: {
     type: String,
+    default: "",
   },
   fullName: {
     type: String,
@@ -17,41 +17,44 @@ const studentProfile = new mongoose.Schema({
     trim: true,
   },
   role: {
-    type: [String], //change: it is the role ref
-    default: ["No role assigned."],
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Role" }],
   },
   birthDay: {
     type: Date,
+    default: Date.now(),
   },
   gender: {
     type: String,
-    enum: ["Male", "Female", "Others"],
+    enum: ["Male", "Female", "Others", "None"],
     default: "None",
     required: true,
   },
-  class: {
+  classNumber: {
     type: Number,
   },
-  section: {
-    type: String, //do change
+  courses: {
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
   },
-  subjects: {
-    type: [String], //change : course ref
-  },
-  transportAddress: {
-    type: String, //change : transport ref
-  },
+  transportAddress: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Transport",
+    },
+  ],
   parentNumber: {
     type: String,
     trim: true,
+    required: true,
   },
   fatherName: {
     type: String,
     trim: true,
+    required: true,
   },
   motherName: {
     type: String,
     trim: true,
+    required: true,
   },
 });
 module.exports = mongoose.model("studentProfile", studentProfile);
