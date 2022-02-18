@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const teacherProfileSchema = mongoose.Schema({
+const nonTeachingStaffSchema = mongoose.Schema({
   profileImageURL: {
     type: String,
     default: "",
@@ -29,9 +29,6 @@ const teacherProfileSchema = mongoose.Schema({
     default: "None",
     required: true,
   },
-  courses: {
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
-  },
   transportAddress: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -40,4 +37,7 @@ const teacherProfileSchema = mongoose.Schema({
   ],
 });
 
-module.exports = mongoose.model("teacherProfile", teacherProfileSchema);
+module.exports = mongoose.model(
+  "nonTeachingStaffProfile",
+  nonTeachingStaffSchema
+);
