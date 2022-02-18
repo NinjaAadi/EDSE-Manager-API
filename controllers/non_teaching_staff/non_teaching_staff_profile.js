@@ -1,19 +1,24 @@
-const isValid = require("../../validators/check_valid_value");
+const {
+  isValid,
+  validGender,
+  validDate,
+} = require("../../validators/check_valid_value");
+const convertToObjectId = require("../../helper/string_to_objectidarray");
 const isValidFile = require("../../validators/file_validator");
 const isValidId = require("../../validators/valid_objectid");
 const errorHandler = require("../../error/error");
-const mongoose = require("mongoose");
 const uploadAndGetFileName = require("../../helper/upload_and_get_filename");
-//Import the student profile schema
-const studentProfileSchema = require("../../models/student/student_profile");
 const removeFile = require("../../helper/remove_file");
 
+//Import the nonTeachingStaff profile schema
+const nonTeachingStaffProfileSchema = require("../../models/non_teaching_staff/non_teaching_staff");
+
 /*
-@desc:Upload a student profile
+@desc:Upload a nonTeachingStaff profile
 @access: Private
 */
 
-exports.addStudentProfile = async (req, res, next) => {
+exports.addNonTeachingStaffProfile = async (req, res, next) => {
   try {
     //Get the profile from req.body
     const profileImage = req.files ? req.files.file : null;
@@ -26,25 +31,15 @@ exports.addStudentProfile = async (req, res, next) => {
       role,
       birthday,
       gender,
-      classNumber,
-      courses,
       transportAddress,
-      parentNumber,
-      fatherName,
-      motherName,
     } = req.body;
     //Validate all the required fields
     if (
       isValid(fullName) == false ||
       isValid(address) == false ||
       isValid(phoneNumber, 10) == false ||
-      isValid(parentNumber, 10) == false ||
-      isValid(fatherName) == false ||
-      isValid(motherName) == false ||
-      isValid(classNumber) == false ||
       isValid(transportAddress) == false ||
       isValid(role) == false ||
-      isValid(courses) == false ||
       isValidFile(profileImage) == false ||
       validGender(gender) == false ||
       validDate(birthday) == false
@@ -53,17 +48,16 @@ exports.addStudentProfile = async (req, res, next) => {
         res,
         next,
         null,
-        "Error uploading student profile in addStudentProfile function",
+        "Error uploading nonTeachingStaff profile in addNonTeachingStaffProfile function",
         "Please enter all the values properly!"
       );
     }
     //Convert to valid objectid arrays
-    courses = convertToObjectId(courses);
     transportAddress = convertToObjectId(transportAddress);
     role = convertToObjectId(role);
 
     //Create the object to be inserted
-    const studentProfileObj = {
+    const nonTeachingStaffProfileObj = {
       profileImageURL: "default.jpg",
       fullName,
       address,
@@ -71,42 +65,41 @@ exports.addStudentProfile = async (req, res, next) => {
       role,
       birthday,
       gender,
-      classNumber,
-      courses,
       transportAddress,
-      parentNumber,
-      fatherName,
-      motherName,
     };
     //Insert the profile into the database
-    let studentProfile = await studentProfileSchema.create(studentProfileObj);
+    let nonTeachingStaffProfile = await nonTeachingStaffProfileSchema.create(
+      nonTeachingStaffProfileObj
+    );
 
-    //Get the id of the student
-    const studentId = studentProfile._id;
+    //Get the id of the nonTeachingStaff
+    const nonTeachingStaffId = nonTeachingStaffProfile._id;
 
     //Change the file name and then upload it in the image section
     const fileNameToInsert = await uploadAndGetFileName(
       profileImage,
-      studentId
+      nonTeachingStaffId
     );
     //Save the profile again with the image
-    studentProfile = await studentProfileSchema.findById(studentId);
-    studentProfile.profileImageURL = fileNameToInsert;
-    await studentProfile.save();
+    nonTeachingStaffProfile = await nonTeachingStaffProfileSchema.findById(
+      nonTeachingStaffId
+    );
+    nonTeachingStaffProfile.profileImageURL = fileNameToInsert;
+    await nonTeachingStaffProfile.save();
 
     //return the result
     return res.status(200).json({
       success: true,
       messege: "Profile created successfully",
-      data: studentProfile,
+      data: nonTeachingStaffProfile,
     });
   } catch (error) {
     return await errorHandler(
       res,
       next,
       error,
-      "Error adding student profile in addProfile function",
-      "Error adding student profile. Please try again!"
+      "Error adding nonTeachingStaff profile in addNonTeachingStaff function",
+      "Error adding nonTeachingStaff profile. Please try again!"
     );
   }
 };
@@ -115,10 +108,10 @@ exports.addStudentProfile = async (req, res, next) => {
 @desc: Update a profile
 @access: Private
 */
-exports.updateStudentProfile = async (req, res, next) => {
+exports.updateNonTeachingStaffProfile = async (req, res, next) => {
   try {
-    //Get the studentProfile id
-    const studentId = req.query.studentId;
+    //Get the nonTeachingStaffProfile id
+    const nonTeachingStaffId = req.query.nonTeachingStaffId;
 
     //Get the profile from req.body
     const profileImage = req.files ? req.files.file : null;
@@ -128,13 +121,13 @@ exports.updateStudentProfile = async (req, res, next) => {
     if (profileImage != null) isProfileImageToBeUpdated = true;
 
     //Validate the id
-    if (isValidId(studentId) == false) {
+    if (isValidId(nonTeachingStaffId) == false) {
       return await errorHandler(
         res,
         next,
         null,
-        "Error updating profile in updateStudentProfile function",
-        "Please enter a valid student profile id"
+        "Error updating profile in updateNonTeachingStaff function",
+        "Please enter a valid nonTeachingStaff profile id"
       );
     }
     //Get all the fields
@@ -145,25 +138,15 @@ exports.updateStudentProfile = async (req, res, next) => {
       role,
       birthday,
       gender,
-      classNumber,
-      courses,
       transportAddress,
-      parentNumber,
-      fatherName,
-      motherName,
     } = req.body;
     //Validate all the required fields
     if (
       isValid(fullName) == false ||
       isValid(address) == false ||
       isValid(phoneNumber, 10) == false ||
-      isValid(parentNumber, 10) == false ||
-      isValid(fatherName) == false ||
-      isValid(motherName) == false ||
-      isValid(classNumber) == false ||
       isValid(transportAddress) == false ||
       isValid(role) == false ||
-      isValid(courses) == false ||
       validGender(gender) == false ||
       validDate(birthday) == false ||
       (isProfileImageToBeUpdated ? isValidFile(profileImage) == false : false)
@@ -172,82 +155,80 @@ exports.updateStudentProfile = async (req, res, next) => {
         res,
         next,
         null,
-        "Error updating student profile in updateStudentProfile function",
+        "Error updating nonTeachingStaff profile in updateNonTeachingStaff function",
         "Please enter all the values properly!"
       );
     }
 
     //Convert to valid objectid arrays
-    courses = convertToObjectId(courses);
     transportAddress = convertToObjectId(transportAddress);
     role = convertToObjectId(role);
 
     //Create the object to be inserted
-    const studentProfileObj = {
+    const nonTeachingStaffProfileObj = {
       fullName,
       address,
       phoneNumber,
       role,
       birthday,
       gender,
-      classNumber,
-      courses,
       transportAddress,
-      parentNumber,
-      fatherName,
-      motherName,
     };
 
     //Get the profile from the role
-    const studentProfile = await studentProfileSchema.findOne({
-      _id: studentId,
-    });
+    const nonTeachingStaffProfile = await nonTeachingStaffProfileSchema.findOne(
+      {
+        _id: nonTeachingStaffId,
+      }
+    );
 
     //If null then return error
-    if (studentProfile == null) {
+    if (nonTeachingStaffProfile == null) {
       return await errorHandler(
         res,
         next,
         null,
-        "Error updating student profile",
-        "No student with this id present. Please try again!"
+        "Error updating nonTechingStaff profile",
+        "No nonTeachingStaff with this id present. Please try again!"
       );
     }
 
     //Update the profileImage if needed else let it remain the same
     if (isProfileImageToBeUpdated) {
       //Remove the file from the server
-      if (studentProfile.profileImageURL != "default.jpg")
-        await removeFile(studentProfile.profileImageURL);
+      if (nonTeachingStaffProfile.profileImageURL != "default.jpg")
+        await removeFile(nonTeachingStaffProfile.profileImageURL);
 
       //Get the new file name and upload it
-      studentProfileObj.profileImageURL = await uploadAndGetFileName(
+      nonTeachingStaffProfileObj.profileImageURL = await uploadAndGetFileName(
         profileImage,
-        studentId
+        nonTeachingStaffId
       );
     } else {
-      studentProfileObj.profileImageURL = studentProfile.profileImageURL;
+      nonTeachingStaffProfileObj.profileImageURL =
+        nonTeachingStaffProfile.profileImageURL;
     }
     //Update to the existing database
-    const newStudentProfile = await studentProfileSchema.findByIdAndUpdate(
-      studentId,
-      studentProfileObj,
-      { new: true }
-    );
+    const newNonTeachingStaffProfile =
+      await nonTeachingStaffProfileSchema.findByIdAndUpdate(
+        nonTeachingStaffId,
+        nonTeachingStaffProfileObj,
+        { new: true }
+      );
 
     //Return the respose
     return res.status(200).json({
       success: "True",
       messege: "Profile updated successfully!",
-      data: newStudentProfile,
+      data: newNonTeachingStaffProfile,
     });
   } catch (error) {
     return await errorHandler(
       res,
       next,
       error,
-      "Error updating student profile in updateStudentProfile function",
-      "Error updating student profile. Please try again!"
+      "Error updating nonTeachingStaff profile in updatenonTeachingStaffProfile function",
+      "Error updating nonTeachingStaff profile. Please try again!"
     );
   }
 };
@@ -256,50 +237,51 @@ exports.updateStudentProfile = async (req, res, next) => {
 @desc: Get a single profile
 @access: Public
 */
-exports.getStudentProfile = async (req, res, next) => {
+exports.getNonTeachingStaffProfile = async (req, res, next) => {
   try {
-    //Fetch the student id from the url
-    const studentId = req.query.studentId;
+    //Fetch the nonTeachingStaff id from the url
+    const nonTeachingStaffId = req.query.nonTeachingStaffId;
 
     //Validate the id
-    if (isValidId(studentId) == false) {
+    if (isValidId(nonTeachingStaffId) == false) {
       return await errorHandler(
         res,
         next,
         null,
-        "Error getting a student profile in getStudentProfile function",
-        "Please enter a valid student profile id"
+        "Error getting a nonTeachingStaff profile in getnonTeachingStaffProfile function",
+        "Please enter a valid nonTeachingStaff profile id"
       );
     }
 
     //Find the profile with the id and populate all the fields
-    const studentProfile = await studentProfileSchema
+    const nonTeachingStaffProfile = await nonTeachingStaffProfileSchema
       .findOne({
-        _id: studentId,
+        _id: nonTeachingStaffId,
       })
-      .populate(["courses", "role", "transportAddress"]);
+      .populate("role");
 
     //If it is null then there is no profile with this id
-    if (studentProfile == null) {
+    if (nonTeachingStaffProfile == null) {
       return await errorHandler(
         res,
         next,
         null,
-        "Error getting a student profile in getStudentProfile function",
-        "No student with this id present. Please try again!"
+        "Error getting a nonTeachingStaff profile in getnonTeachingStaffProfile function",
+        "No nonTeachingStaff with this id present. Please try again!"
       );
     }
     return res.status(200).json({
       success: true,
-      data: studentProfile,
+      data: nonTeachingStaffProfile,
     });
   } catch (error) {
+    console.log(error);
     return await errorHandler(
       res,
       next,
       error,
-      "Error getting a student profile in getStudentProfile function",
-      "Error getting a student profile. Please try again!"
+      "Error getting a nonTeachingStaff profile in getnonTeachingStaffProfile function",
+      "Error getting a nonTeachingStaff profile. Please try again!"
     );
   }
 };
@@ -308,73 +290,51 @@ exports.getStudentProfile = async (req, res, next) => {
 @desc: Delete a profile
 @access: Private
 */
-exports.deleteStudentProfile = async (req, res, next) => {
+exports.deleteNonTeachingStaffProfile = async (req, res, next) => {
   try {
-    //Fetch the student id from the url
-    const studentId = req.query.studentId;
+    //Fetch the nonTeachingStaff id from the url
+    const nonTeachingStaffId = req.query.nonTeachingStaffId;
 
     //Validate the id
-    if (isValidId(studentId) == false) {
+    if (isValidId(nonTeachingStaffId) == false) {
       return await errorHandler(
         res,
         next,
         null,
-        "Error deleting a student profile in deleteStudentProfile function",
-        "Please enter a valid student profile id"
+        "Error deleting a nonTeaching profile in deletenonTeachingProfile function",
+        "Please enter a valid nonTeaching profile id"
       );
     }
 
     //Find the profile with the id and delete it
-    const studentProfile = await studentProfileSchema.findOneAndDelete({
-      _id: studentId,
-    });
+    const nonTeachingStaffProfile =
+      await nonTeachingStaffProfileSchema.findOneAndDelete({
+        _id: nonTeachingStaffId,
+      });
 
     //If it is null then there is no profile with this id
-    if (studentProfile == null) {
+    if (nonTeachingStaffProfile == null) {
       return await errorHandler(
         res,
         next,
         null,
-        "Error deleting  a student profile in getStudentProfile function",
-        "No student with this id present. Please try again!"
+        "Error deleting a nonTeachingStaff profile in deleteTeachingStaffProfile function",
+        "No nonTeachingStaff with this id present. Please try again!"
       );
     }
+    await removeFile(nonTeachingStaffProfile.profileImageURL);
     return res.status(200).json({
       success: true,
       messege: "Profile deleted successfully!",
     });
   } catch (error) {
+    console.log(error);
     return await errorHandler(
       res,
       next,
       error,
-      "Error deleting a student profile in deleteStudentProfile function",
-      "Error deleting a student profile. Please try again!"
+      "Error deleting a nonTeachingStaff profile in deletenonTeachingStaffProfile function",
+      "Error deleting a nonTeachingStaff profile. Please try again!"
     );
   }
-};
-
-//Helper functions
-
-//Function to convert a string into an ObjectId
-const convertToObjectId = (stringToChange) => {
-  const splittedString = stringToChange.split(",");
-  const objectArr = [];
-  splittedString.forEach((item) =>
-    objectArr.push(mongoose.Types.ObjectId(item))
-  );
-  return objectArr;
-};
-
-//Validate gender
-const validGender = (gender) => {
-  const values = ["Male", "Female", "Others", "None"];
-  if (values.includes(gender)) return true;
-  return false;
-};
-
-//Validate date
-const validDate = (date) => {
-  if (new Date(parseInt(date)) == "Invalid Date") return false;
-  return true;
 };

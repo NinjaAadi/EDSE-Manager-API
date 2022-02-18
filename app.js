@@ -24,12 +24,18 @@ app.use(express.json());
 
 //import all the route files
 const studentProfileRoute = require("./routes/student/student_profile");
+const teacherProfileRoute = require("./routes/teacher/teacher_profile");
+const nonTeachingStaffProfileRoute = require("./routes/non_teaching_staff/non_teaching_staff_profile");
 const roleRoute = require("./routes/role/role");
 const courseRoute = require("./routes/course/course");
 const transportRoute = require("./routes/transport/transport");
-
 //routes
 app.use(`/${process.env.API_INITIAL_URL}profile/student/`, studentProfileRoute);
+app.use(`/${process.env.API_INITIAL_URL}profile/teacher/`, teacherProfileRoute);
+app.use(
+  `/${process.env.API_INITIAL_URL}profile/nonTeachingStaff/`,
+  nonTeachingStaffProfileRoute
+);
 app.use(`/${process.env.API_INITIAL_URL}role/`, roleRoute);
 app.use(`/${process.env.API_INITIAL_URL}course/`, courseRoute);
 app.use(`/${process.env.API_INITIAL_URL}transport/`, transportRoute);

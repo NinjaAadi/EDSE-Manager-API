@@ -7,7 +7,7 @@ const {
   updateStudentProfile,
   getStudentProfile,
   deleteStudentProfile,
-} = require("../../controllers/student_profile/student_profile");
+} = require("../../controllers/student/student_profile");
 
 //Routes
 router.route("/createProfile").post(addStudentProfile);
