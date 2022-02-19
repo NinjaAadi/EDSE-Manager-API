@@ -79,7 +79,8 @@ exports.addTeacherProfile = async (req, res, next) => {
     //Change the file name and then upload it in the image section
     const fileNameToInsert = await uploadAndGetFileName(
       profileImage,
-      teacherId
+      teacherId,
+      process.env.PROFILE_FILE_UPLOAD_PATH
     );
     //Save the profile again with the image
     teacherProfile = await teacherProfileSchema.findById(teacherId);
@@ -199,12 +200,16 @@ exports.updateTeacherProfile = async (req, res, next) => {
     if (isProfileImageToBeUpdated) {
       //Remove the file from the server
       if (teacherProfile.profileImageURL != "default.jpg")
-        await removeFile(teacherProfile.profileImageURL);
+        await removeFile(
+          teacherProfile.profileImageURL,
+          process.env.PROFILE_FILE_UPLOAD_PATH
+        );
 
       //Get the new file name and upload it
       teacherProfileObj.profileImageURL = await uploadAndGetFileName(
         profileImage,
-        teacherId
+        teacherId,
+        process.env.PROFILE_FILE_UPLOAD_PATH
       );
     } else {
       teacherProfile.profileImageURL = teacherProfile.profileImageURL;
@@ -322,7 +327,10 @@ exports.deleteTeacherProfile = async (req, res, next) => {
     }
 
     //Delete the profile associated with it
-    await removeFile(teacherProfile.profileImageURL);
+    await removeFile(
+      teacherProfile.profileImageURL,
+      process.env.PROFILE_FILE_UPLOAD_PATH
+    );
 
     return res.status(200).json({
       success: true,

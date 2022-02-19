@@ -78,7 +78,8 @@ exports.addNonTeachingStaffProfile = async (req, res, next) => {
     //Change the file name and then upload it in the image section
     const fileNameToInsert = await uploadAndGetFileName(
       profileImage,
-      nonTeachingStaffId
+      nonTeachingStaffId,
+      process.env.PROFILE_FILE_UPLOAD_PATH
     );
     //Save the profile again with the image
     nonTeachingStaffProfile = await nonTeachingStaffProfileSchema.findById(
@@ -197,12 +198,16 @@ exports.updateNonTeachingStaffProfile = async (req, res, next) => {
     if (isProfileImageToBeUpdated) {
       //Remove the file from the server
       if (nonTeachingStaffProfile.profileImageURL != "default.jpg")
-        await removeFile(nonTeachingStaffProfile.profileImageURL);
+        await removeFile(
+          nonTeachingStaffProfile.profileImageURL,
+          process.env.PROFILE_FILE_UPLOAD_PATH
+        );
 
       //Get the new file name and upload it
       nonTeachingStaffProfileObj.profileImageURL = await uploadAndGetFileName(
         profileImage,
-        nonTeachingStaffId
+        nonTeachingStaffId,
+        process.env.PROFILE_FILE_UPLOAD_PATH
       );
     } else {
       nonTeachingStaffProfileObj.profileImageURL =
@@ -322,7 +327,10 @@ exports.deleteNonTeachingStaffProfile = async (req, res, next) => {
         "No nonTeachingStaff with this id present. Please try again!"
       );
     }
-    await removeFile(nonTeachingStaffProfile.profileImageURL);
+    await removeFile(
+      nonTeachingStaffProfile.profileImageURL,
+      PROFILE_FILE_UPLOAD_PATH
+    );
     return res.status(200).json({
       success: true,
       messege: "Profile deleted successfully!",
