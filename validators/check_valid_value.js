@@ -20,3 +20,11 @@ exports.validDate = (date) => {
   if (new Date(parseInt(date)) == "Invalid Date") return false;
   return true;
 };
+
+//Helper function for if an array contains a value or not
+exports.isPresentinArray = (target, targetArray) => {
+  if (targetArray.includes(target) == false || target == null) {
+    return false;
+  }
+  return true;
+};

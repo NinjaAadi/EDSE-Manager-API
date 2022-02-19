@@ -16,8 +16,21 @@ exports.addRole = async (req, res, next) => {
     const roleObj = { title: role, for: roleFor };
 
     //Validate for the role for
-    if (validateRoleType(roleFor) == false) {
-      return returnError(res, next);
+    if (
+      validateRoleType(roleFor, [
+        "Student",
+        "Teacher",
+        "NonTeachingStaff",
+        "Admin",
+      ]) == false
+    ) {
+      return await errorHandler(
+        res,
+        next,
+        null,
+        "Error in adding student role. Please check the role type",
+        "Please enter a valid role type."
+      );
     }
     //Validate the title
     if (checkValid(role) == false) {
@@ -232,25 +245,3 @@ exports.getRoleById = async (req, res, next) => {
     );
   }
 };
-
-//Helper function for role type validation
-const validateRoleType = (roleFor) => {
-  const roleForOption = ["Student", "Teacher", "NonTeachingStaff", "Admin"];
-  if (roleForOption.includes(roleFor) == false || roleFor == null) {
-    return false;
-  }
-  return true;
-};
-
-//Helper function to return an error if the role type is not valid
-const returnError = async (res, next) => {
-  return await errorHandler(
-    res,
-    next,
-    null,
-    "Error in adding student role. Please check the role type",
-    "Please enter a valid role type."
-  );
-};
-
-//Helper function to return an error if the role id is not valid

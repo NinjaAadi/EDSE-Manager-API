@@ -94,7 +94,8 @@ exports.addStudentProfile = async (req, res, next) => {
     //Change the file name and then upload it in the image section
     const fileNameToInsert = await uploadAndGetFileName(
       profileImage,
-      studentId
+      studentId,
+      process.env.PROFILE_FILE_UPLOAD_PATH
     );
     //Save the profile again with the image
     studentProfile = await studentProfileSchema.findById(studentId);
@@ -225,12 +226,16 @@ exports.updateStudentProfile = async (req, res, next) => {
     if (isProfileImageToBeUpdated) {
       //Remove the file from the server
       if (studentProfile.profileImageURL != "default.jpg")
-        await removeFile(studentProfile.profileImageURL);
+        await removeFile(
+          studentProfile.profileImageURL,
+          process.env.PROFILE_FILE_UPLOAD_PATH
+        );
 
       //Get the new file name and upload it
       studentProfileObj.profileImageURL = await uploadAndGetFileName(
         profileImage,
-        studentId
+        studentId,
+        process.env.PROFILE_FILE_UPLOAD_PATH
       );
     } else {
       studentProfileObj.profileImageURL = studentProfile.profileImageURL;
@@ -348,7 +353,10 @@ exports.deleteStudentProfile = async (req, res, next) => {
     }
 
     //Delete the photo associated with the profile
-    await removeFile(studentProfile.profileImageURL);
+    await removeFile(
+      studentProfile.profileImageURL,
+      process.env.PROFILE_FILE_UPLOAD_PATH
+    );
     return res.status(200).json({
       success: true,
       messege: "Profile deleted successfully!",
