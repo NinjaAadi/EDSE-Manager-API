@@ -28,3 +28,20 @@ exports.isPresentinArray = (target, targetArray) => {
   }
   return true;
 };
+
+//Helper functions for checking that it is a valid time format or not
+exports.isValidTimeString = (timeStr) => {
+  if (timeStr == null) return false;
+  //Time regular expression
+  const timeRegExp = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
+  return timeRegExp.test(timeStr);
+};
+
+//Function for checking a valid time stamp
+exports.isValidTimeStamp = (startTime, endTime) => {
+  const start = parseInt(startTime.substring(0, 2));
+  const end = parseInt(endTime.substring(0, 2));
+  console.log(start, end);
+  if (start > end) return false;
+  return true;
+};
