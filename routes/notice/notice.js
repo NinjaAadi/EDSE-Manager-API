@@ -12,11 +12,10 @@ const {
 } = require("../../controllers/notice/notice");
 const { update } = require("../../models/notice/notice");
 
-
 //Routes
 router.route("/addNotice").post(addNotice);
 router.route("/getAllNotice").get(getAllNotice);
 router.route("/getNotice").get(getNotice);
 router.route("/deleteNotice").delete(deleteNotice);
-router.route("/updateNotice").post(updateNotice);
+router.route("/updateNotice").put(updateNotice);
 module.exports = router;

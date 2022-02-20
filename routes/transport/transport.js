@@ -15,7 +15,7 @@ const {
 
 router.route("/addTransportAddress").post(addTransportAddress);
 router.route("/getAllTransportAddress").get(getAllTransportAddress);
-router.route("/updateTransportAddress").post(updateTransportAddress);
+router.route("/updateTransportAddress").put(updateTransportAddress);
 router.route("/deleteTransportAddress").delete(deleteTransportAddress);
 router.route("/getTransportAddress").get(getTransportAddressById);
 router.route("/searchTransportAddress").get(searchTransportAddress);
