@@ -12,7 +12,7 @@ const {
 //Routes
 router.route("/addTime").post(addTime);
 router.route("/getAllTime").get(getAllTime);
-router.route("/updateTime").post(updateTime);
+router.route("/updateTime").put(updateTime);
 router.route("/deleteTime").delete(deleteTime);
 
 module.exports = router;

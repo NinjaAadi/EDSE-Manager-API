@@ -12,7 +12,7 @@ const {
 
 router.route("/addCourse").post(addCourse);
 router.route("/getAllCourse").get(getAllCourse);
-router.route("/updateCourse").post(updateCourse);
+router.route("/updateCourse").put(updateCourse);
 router.route("/deleteCourse").delete(deleteCourse);
 router.route("/getCourse").get(getCourseById);
 

@@ -12,7 +12,7 @@ const {
 //Routes
 router.route("/addRoleValue").post(addRole);
 router.route("/deleteRoleValue").delete(deleteRole);
-router.route("/updateRoleValue").post(updateRole);
+router.route("/updateRoleValue").put(updateRole);
 router.route("/getRole").get(getRoleById);
 router.route("/getAllRole").get(getAllRoles);
 

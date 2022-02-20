@@ -11,7 +11,7 @@ const {
 
 //Routes
 router.route("/createProfile").post(addTeacherProfile);
-router.route("/updateProfile").post(updateTeacherProfile);
+router.route("/updateProfile").put(updateTeacherProfile);
 router.route("/getProfile").get(getTeacherProfile);
 router.route("/deleteProfile").delete(deleteTeacherProfile);
 
