@@ -56,5 +56,17 @@ const studentProfile = new mongoose.Schema({
     trim: true,
     required: true,
   },
+  attendance: {
+    type: [
+      {
+        day: String,
+        isPresent: Boolean,
+      },
+    ],
+    default: undefined,
+  },
+  totalDayPresent: {
+    type: Number,
+  },
 });
 module.exports = mongoose.model("studentProfile", studentProfile);
