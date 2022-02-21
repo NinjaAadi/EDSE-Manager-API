@@ -65,8 +65,5 @@ const studentProfile = new mongoose.Schema({
     ],
     default: undefined,
   },
-  totalDayPresent: {
-    type: Number,
-  },
 });
 module.exports = mongoose.model("studentProfile", studentProfile);
