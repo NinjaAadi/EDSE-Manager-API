@@ -34,6 +34,7 @@ const dayRoute = require("./routes/day/day");
 const timeRoute = require("./routes/time/time");
 const timeTableRoute = require("./routes/time_table/time_table");
 const attendanceRoute = require("./routes/attendance/attendance");
+const reviewRoute = require("./routes/review/review");
 //routes
 app.use(`/${process.env.API_INITIAL_URL}profile/student/`, studentProfileRoute);
 app.use(`/${process.env.API_INITIAL_URL}profile/teacher/`, teacherProfileRoute);
@@ -50,6 +51,7 @@ app.use(`/${process.env.API_INITIAL_URL}day/`, dayRoute);
 app.use(`/${process.env.API_INITIAL_URL}time/`, timeRoute);
 app.use(`/${process.env.API_INITIAL_URL}timeTable/`, timeTableRoute);
 app.use(`/${process.env.API_INITIAL_URL}attendance/`, attendanceRoute);
+app.use(`/${process.env.API_INITIAL_URL}review/`, reviewRoute);
 //Create the clusters
 // const numCpu = os.cpus().length;
 // if (cluster.isMaster) {
