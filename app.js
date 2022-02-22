@@ -38,6 +38,9 @@ const reviewRoute = require("./routes/review/review");
 const studentSignUpRoute = require("./routes/signup/student_signup");
 const teacherSignUpRoute = require("./routes/signup/teacher_signup");
 const nonTeachingStaffSignUpRoute = require("./routes/signup/non_teaching_staff");
+const studentLoginRoute = require("./routes/login/student_login");
+const teacherLoginRoute = require("./routes/login/teacher_login");
+const nonTeachingStaffLoginRoute = require("./routes/login/non_teaching_staff_login");
 //routes
 app.use(`/${process.env.API_INITIAL_URL}profile/student/`, studentProfileRoute);
 app.use(`/${process.env.API_INITIAL_URL}profile/teacher/`, teacherProfileRoute);
@@ -58,6 +61,10 @@ app.use(`/${process.env.API_INITIAL_URL}review/`, reviewRoute);
 app.use(`/${process.env.API_INITIAL_URL}signUp/`, studentSignUpRoute);
 app.use(`/${process.env.API_INITIAL_URL}signUp/`, teacherSignUpRoute);
 app.use(`/${process.env.API_INITIAL_URL}signUp/`, nonTeachingStaffSignUpRoute);
+app.use(`/${process.env.API_INITIAL_URL}login/`, studentLoginRoute);
+app.use(`/${process.env.API_INITIAL_URL}login/`, teacherLoginRoute);
+app.use(`/${process.env.API_INITIAL_URL}login/`, nonTeachingStaffLoginRoute);
+
 //Create the clusters
 // const numCpu = os.cpus().length;
 // if (cluster.isMaster) {
