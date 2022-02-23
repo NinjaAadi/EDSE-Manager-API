@@ -75,9 +75,10 @@ app.use(`/${process.env.API_INITIAL_URL}class/`, classRoute);
 //     cluster.fork();
 //   }
 // } else {
-//   app.listen(process.env.PORT, () => {
-//     logger.info("App running in port " + process.env.PORT);
-//   });
+//   // app.listen(process.env.PORT, () => {
+//   //   logger.info("App running in port " + process.env.PORT);
+//   // });
+  
 // }
 app.listen(process.env.PORT, () => {
   logger.info("App running in port " + process.env.PORT);

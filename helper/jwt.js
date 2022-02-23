@@ -15,7 +15,7 @@ exports.getToken = (object) => {
   return token;
 };
 
-exports.getObject = async (token) => {
+exports.getObject = (token) => {
   //Get the object
   /*Verify the token */
   const decodedObj = jwt.verify(token, process.env.JWT_SECRET);
