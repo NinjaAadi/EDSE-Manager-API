@@ -9,10 +9,13 @@ const {
   deleteTeacherProfile,
 } = require("../../controllers/teacher/teacher_profile");
 
+//Bring the authorization functions
+const auth = require("../../middlewares/admin_auth");
+
 //Routes
-router.route("/createProfile").post(addTeacherProfile);
-router.route("/updateProfile").put(updateTeacherProfile);
+router.route("/createProfile").post(auth, addTeacherProfile);
+router.route("/updateProfile").put(auth, updateTeacherProfile);
 router.route("/getProfile").get(getTeacherProfile);
-router.route("/deleteProfile").delete(deleteTeacherProfile);
+router.route("/deleteProfile").delete(auth, deleteTeacherProfile);
 
 module.exports = router;
