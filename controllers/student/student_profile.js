@@ -32,7 +32,6 @@ exports.addStudentProfile = async (req, res, next) => {
       role,
       birthday,
       gender,
-      classNumber,
       courses,
       transportAddress,
       parentNumber,
@@ -48,7 +47,6 @@ exports.addStudentProfile = async (req, res, next) => {
       isValid(parentNumber, 10) == false ||
       isValid(fatherName) == false ||
       isValid(motherName) == false ||
-      isValid(classNumber) == false ||
       isValid(transportAddress) == false ||
       isValid(role) == false ||
       isValid(courses) == false ||
@@ -78,7 +76,6 @@ exports.addStudentProfile = async (req, res, next) => {
       role,
       birthday,
       gender,
-      classNumber,
       courses,
       transportAddress,
       parentNumber,
@@ -153,7 +150,6 @@ exports.updateStudentProfile = async (req, res, next) => {
       role,
       birthday,
       gender,
-      classNumber,
       courses,
       transportAddress,
       parentNumber,
@@ -168,7 +164,6 @@ exports.updateStudentProfile = async (req, res, next) => {
       isValid(parentNumber, 10) == false ||
       isValid(fatherName) == false ||
       isValid(motherName) == false ||
-      isValid(classNumber) == false ||
       isValid(transportAddress) == false ||
       isValid(role) == false ||
       isValid(courses) == false ||
@@ -198,7 +193,6 @@ exports.updateStudentProfile = async (req, res, next) => {
       role,
       birthday,
       gender,
-      classNumber,
       courses,
       transportAddress,
       parentNumber,

@@ -1,5 +1,8 @@
 const errorHandler = require("../../error/error");
-const checkValid = require("../../validators/check_valid_value");
+const {
+  isValid,
+  isPresentinArray,
+} = require("../../validators/check_valid_value");
 const isValidId = require("../../validators/valid_objectid");
 //import the model
 const roleSchema = require("../../models/role/role");
@@ -17,7 +20,7 @@ exports.addRole = async (req, res, next) => {
 
     //Validate for the role for
     if (
-      validateRoleType(roleFor, [
+      isPresentinArray(roleFor, [
         "Student",
         "Teacher",
         "NonTeachingStaff",
@@ -33,7 +36,7 @@ exports.addRole = async (req, res, next) => {
       );
     }
     //Validate the title
-    if (checkValid(role) == false) {
+    if (isValid(role) == false) {
       return await errorHandler(
         res,
         next,
@@ -101,8 +104,8 @@ exports.updateRole = async (req, res, next) => {
 
     //Validate the id
     if (
-      checkValid(roleId) == false ||
-      checkValid(title) == false ||
+      isValid(roleId) == false ||
+      isValid(title) == false ||
       isValidId(roleId) == false //if it is a valid mongoose object id or not
     ) {
       return await errorHandler(
@@ -155,7 +158,7 @@ exports.deleteRole = async (req, res, next) => {
 
     //Validate the id
     if (
-      checkValid(roleId) == false ||
+      isValid(roleId) == false ||
       isValidId(roleId) == false //if it is a valid mongoose object id or not
     ) {
       return await errorHandler(
@@ -206,7 +209,7 @@ exports.getRoleById = async (req, res, next) => {
 
     //Validate the id
     if (
-      checkValid(roleId) == false ||
+      isValid(roleId) == false ||
       isValidId(roleId) == false //if it is a valid mongoose object id or not
     ) {
       return await errorHandler(
