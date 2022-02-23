@@ -41,6 +41,8 @@ const nonTeachingStaffSignUpRoute = require("./routes/signup/non_teaching_staff"
 const studentLoginRoute = require("./routes/login/student_login");
 const teacherLoginRoute = require("./routes/login/teacher_login");
 const nonTeachingStaffLoginRoute = require("./routes/login/non_teaching_staff_login");
+const classRoute = require("./routes/class/class");
+
 //routes
 app.use(`/${process.env.API_INITIAL_URL}profile/student/`, studentProfileRoute);
 app.use(`/${process.env.API_INITIAL_URL}profile/teacher/`, teacherProfileRoute);
@@ -64,6 +66,7 @@ app.use(`/${process.env.API_INITIAL_URL}signUp/`, nonTeachingStaffSignUpRoute);
 app.use(`/${process.env.API_INITIAL_URL}login/`, studentLoginRoute);
 app.use(`/${process.env.API_INITIAL_URL}login/`, teacherLoginRoute);
 app.use(`/${process.env.API_INITIAL_URL}login/`, nonTeachingStaffLoginRoute);
+app.use(`/${process.env.API_INITIAL_URL}class/`, classRoute);
 
 //Create the clusters
 // const numCpu = os.cpus().length;

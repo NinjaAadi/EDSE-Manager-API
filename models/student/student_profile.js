@@ -29,9 +29,6 @@ const studentProfile = new mongoose.Schema({
     default: "None",
     required: true,
   },
-  classNumber: {
-    type: Number,
-  },
   courses: {
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
   },
@@ -64,6 +61,9 @@ const studentProfile = new mongoose.Schema({
       },
     ],
     default: undefined,
+  },
+  className: {
+    type: String,
   },
 });
 module.exports = mongoose.model("studentProfile", studentProfile);
