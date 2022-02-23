@@ -9,10 +9,14 @@ const {
   getReview,
   deleteReview,
 } = require("../../controllers/review/review");
+
+//Bring the authorization functions
+const auth = require("../../middlewares/admin_teacher_auth");
 //Routes
-router.route("/addReview").post(addReview);
-router.route("/updateReview").put(updateReview);
-router.route("/getReviews").get(getReview);
-router.route("/deleteReview").delete(deleteReview);
+
+router.route("/addReview").post(auth, addReview);
+router.route("/updateReview").put(auth, updateReview);
+router.route("/getReviews").get(auth, getReview);
+router.route("/deleteReview").delete(auth, deleteReview);
 
 module.exports = router;

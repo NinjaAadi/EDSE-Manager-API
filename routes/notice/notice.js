@@ -12,10 +12,13 @@ const {
 } = require("../../controllers/notice/notice");
 const { update } = require("../../models/notice/notice");
 
+//Bring the authorization functions
+const auth = require("../../middlewares/admin_auth");
+
 //Routes
-router.route("/addNotice").post(addNotice);
+router.route("/addNotice").post(auth, addNotice);
 router.route("/getAllNotice").get(getAllNotice);
 router.route("/getNotice").get(getNotice);
-router.route("/deleteNotice").delete(deleteNotice);
-router.route("/updateNotice").put(updateNotice);
+router.route("/deleteNotice").delete(auth, deleteNotice);
+router.route("/updateNotice").put(auth, updateNotice);
 module.exports = router;

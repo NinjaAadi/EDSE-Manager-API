@@ -10,10 +10,13 @@ const {
   getCourseById,
 } = require("../../controllers/course/course");
 
-router.route("/addCourse").post(addCourse);
+//Bring the authorization functions
+const auth = require("../../middlewares/admin_auth");
+
+router.route("/addCourse").post(auth, addCourse);
 router.route("/getAllCourse").get(getAllCourse);
-router.route("/updateCourse").put(updateCourse);
-router.route("/deleteCourse").delete(deleteCourse);
+router.route("/updateCourse").put(auth, updateCourse);
+router.route("/deleteCourse").delete(auth, deleteCourse);
 router.route("/getCourse").get(getCourseById);
 
 module.exports = router;

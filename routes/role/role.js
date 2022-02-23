@@ -9,10 +9,13 @@ const {
   deleteRole,
   getRoleById,
 } = require("../../controllers/role/role");
+
+//Bring the authorization functions
+const auth = require("../../middlewares/admin_teacher_auth");
 //Routes
-router.route("/addRoleValue").post(addRole);
-router.route("/deleteRoleValue").delete(deleteRole);
-router.route("/updateRoleValue").put(updateRole);
+router.route("/addRoleValue").post(auth, addRole);
+router.route("/deleteRoleValue").delete(auth, deleteRole);
+router.route("/updateRoleValue").put(auth, updateRole);
 router.route("/getRole").get(getRoleById);
 router.route("/getAllRole").get(getAllRoles);
 

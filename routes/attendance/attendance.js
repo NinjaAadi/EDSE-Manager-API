@@ -9,8 +9,8 @@ const {
 } = require("../../controllers/attendence/attendence");
 
 //Bring the authorization middleware function
-const auth = require("../../middlewares/admin_auth");
+const auth = require("../../middlewares/admin_teacher_auth");
 //Routes
 router.route("/setAttendance").post(auth, addAttendance);
-router.route("/deleteAttendance").post(deleteAttendance);
+router.route("/deleteAttendance").post(auth, deleteAttendance);
 module.exports = router;

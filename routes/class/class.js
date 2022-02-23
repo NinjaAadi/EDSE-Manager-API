@@ -13,13 +13,15 @@ const {
   deleteStudentFromClass,
 } = require("../../controllers/class/class");
 
+//Bring the authorization functions
+const auth = require("../../middlewares/admin_auth");
 //Routes
-router.route("/createClass").post(createClass);
-router.route("/updateTeacher").put(updateTeacher);
-router.route("/updateClassName").put(updateClassName);
-router.route("/deleteClass").delete(deleteClass);
+router.route("/createClass").post(auth, createClass);
+router.route("/updateTeacher").put(auth, updateTeacher);
+router.route("/updateClassName").put(auth, updateClassName);
+router.route("/deleteClass").delete(auth, deleteClass);
 router.route("/getClass").get(getClassByTeacherId);
-router.route("/addStudent").post(addStudentToClass);
-router.route("/deleteStudent").delete(deleteStudentFromClass);
+router.route("/addStudent").post(auth, addStudentToClass);
+router.route("/deleteStudent").delete(auth, deleteStudentFromClass);
 
 module.exports = router;
