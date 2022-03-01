@@ -16,11 +16,29 @@ const {
 //Bring the authorization functions
 const auth = require("../../middlewares/admin_auth");
 
-router.route("/addTransportAddress").post(auth, addTransportAddress);
-router.route("/getAllTransportAddress").get(getAllTransportAddress);
-router.route("/updateTransportAddress").put(auth, updateTransportAddress);
-router.route("/deleteTransportAddress").delete(auth, deleteTransportAddress);
-router.route("/getTransportAddress").get(getTransportAddressById);
+//Bring the caching middlewares
+const {
+  addCache,
+  getAllCache,
+  getACache,
+  clearCache,
+} = require("../../cache/transport/transport");
+
+router
+  .route("/addTransportAddress")
+  .post(auth, clearCache, addTransportAddress);
+router
+  .route("/getAllTransportAddress")
+  .get(getAllCache, getAllTransportAddress, addCache);
+router
+  .route("/updateTransportAddress")
+  .put(auth, clearCache, updateTransportAddress);
+router
+  .route("/deleteTransportAddress")
+  .delete(auth, clearCache, deleteTransportAddress);
+router
+  .route("/getTransportAddress")
+  .get(getACache, getTransportAddressById, getACache);
 router.route("/searchTransportAddress").get(searchTransportAddress);
 
 module.exports = router;

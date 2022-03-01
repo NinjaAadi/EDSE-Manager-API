@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const logger = require("../logger/logger");
-
 //Connect to the database using the mongoDb url
 const connectDb = async () => {
   try {

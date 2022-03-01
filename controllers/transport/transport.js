@@ -1,6 +1,7 @@
 const errorHandler = require("../../error/error");
-const checkValid = require("../../validators/check_valid_value");
+const { isValid } = require("../../validators/check_valid_value");
 const isValidId = require("../../validators/valid_objectid");
+
 //Import the model
 const transportSchema = require("../../models/transport/transport");
 
@@ -14,7 +15,7 @@ exports.addTransportAddress = async (req, res, next) => {
     const transportObj = { address, pinCode }; //Create the object
 
     //Validate all the fields
-    if (checkValid(address) == false || checkValid(pinCode) == false) {
+    if (isValid(address) == false || isValid(pinCode) == false) {
       return await errorHandler(
         res,
         next,
@@ -33,7 +34,6 @@ exports.addTransportAddress = async (req, res, next) => {
       messege: "Address inserted successfully",
     });
   } catch (error) {
-    console.log(error);
     return await errorHandler(
       res,
       next,
@@ -53,11 +53,11 @@ exports.getAllTransportAddress = async (req, res, next) => {
     //Fetch from the db
     const allTransport = await transportSchema.find();
 
-    //return response
-    return res.status(200).json({
-      success: true,
-      data: allTransport,
-    });
+    //set it into the req object
+    req.allTransports = allTransport;
+
+    //Call the next so that it can cache
+    next();
   } catch (error) {
     return await errorHandler(
       res,
@@ -81,7 +81,7 @@ exports.updateTransportAddress = async (req, res, next) => {
     //Validate the id
     if (
       isValidId(transportAddressId) == false ||
-      checkValid(transportAddressId) == false
+      isValid(transportAddressId) == false
     ) {
       return await errorHandler(
         res,
@@ -93,7 +93,7 @@ exports.updateTransportAddress = async (req, res, next) => {
     }
 
     //Validate all the fields
-    if (checkValid(address) == false || checkValid(pinCode) == false) {
+    if (isValid(address) == false || isValid(pinCode) == false) {
       return await errorHandler(
         res,
         next,
@@ -146,7 +146,7 @@ exports.deleteTransportAddress = async (req, res, next) => {
     //Validate the id
     if (
       isValidId(transportAddressId) == false ||
-      checkValid(transportAddressId) == false
+      isValid(transportAddressId) == false
     ) {
       return await errorHandler(
         res,
@@ -199,7 +199,7 @@ exports.getTransportAddressById = async (req, res, next) => {
     //Validate the id
     if (
       isValidId(transportAddressId) == false ||
-      checkValid(transportAddressId) == false
+      isValid(transportAddressId) == false
     ) {
       return await errorHandler(
         res,
@@ -248,7 +248,7 @@ exports.searchTransportAddress = async (req, res, next) => {
     const pinCode = req.query.pinCode;
 
     //Validate the pincode
-    if (checkValid(pinCode) == false) {
+    if (isValid(pinCode) == false) {
       return await errorHandler(
         res,
         next,
