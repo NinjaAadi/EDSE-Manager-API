@@ -9,7 +9,7 @@ const env = require("dotenv").config({ path: path.join(__dirname, ".env") });
 const logger = require("./logger/logger");
 const cluster = require("cluster");
 const os = require("os");
-
+const client = require("./redis/init_redis");
 //Connect to the database
 const connectDb = require("./database/database_mongodb");
 connectDb();
@@ -78,7 +78,7 @@ app.use(`/${process.env.API_INITIAL_URL}class/`, classRoute);
 //   // app.listen(process.env.PORT, () => {
 //   //   logger.info("App running in port " + process.env.PORT);
 //   // });
-  
+
 // }
 app.listen(process.env.PORT, () => {
   logger.info("App running in port " + process.env.PORT);
