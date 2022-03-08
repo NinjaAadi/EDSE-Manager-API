@@ -1,5 +1,5 @@
 const errorHandler = require("../../error/error");
-const checkValid = require("../../validators/check_valid_value");
+const { isValid } = require("../../validators/check_valid_value");
 const isValidId = require("../../validators/valid_objectid");
 //Import the model
 const courseSchema = require("../../models/course/course");
@@ -15,9 +15,9 @@ exports.addCourse = async (req, res, next) => {
 
     //Validate all the fields
     if (
-      checkValid(name) == false ||
-      checkValid(subjectCode) == false ||
-      checkValid(description) == false
+      isValid(name) == false ||
+      isValid(subjectCode) == false ||
+      isValid(description) == false
     ) {
       return await errorHandler(
         res,
@@ -84,7 +84,7 @@ exports.updateCourse = async (req, res, next) => {
     const courseObj = { name, subjectCode, description };
 
     //Validate the id
-    if (isValidId(courseId) == false || checkValid(courseId) == false) {
+    if (isValidId(courseId) == false || isValid(courseId) == false) {
       return await errorHandler(
         res,
         next,
@@ -96,9 +96,9 @@ exports.updateCourse = async (req, res, next) => {
 
     //Validate all the fields
     if (
-      checkValid(name) == false ||
-      checkValid(subjectCode) == false ||
-      checkValid(description) == false
+      isValid(name) == false ||
+      isValid(subjectCode) == false ||
+      isValid(description) == false
     ) {
       return await errorHandler(
         res,
@@ -150,7 +150,7 @@ exports.deleteCourse = async (req, res, next) => {
     const courseId = req.query.courseId;
 
     //Validate the id
-    if (isValidId(courseId) == false || checkValid(courseId) == false) {
+    if (isValidId(courseId) == false || isValid(courseId) == false) {
       return await errorHandler(
         res,
         next,
@@ -197,7 +197,7 @@ exports.getCourseById = async (req, res, next) => {
     const courseId = req.query.courseId;
 
     //Validate the id
-    if (isValidId(courseId) == false || checkValid(courseId) == false) {
+    if (isValidId(courseId) == false || isValid(courseId) == false) {
       return await errorHandler(
         res,
         next,

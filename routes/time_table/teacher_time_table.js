@@ -10,8 +10,8 @@ const {
   getTimeTable,
   deleteTimeTable,
   relateTimeTable,
-  getTimeTableForClass,
-} = require("../../controllers/time_table/time_table");
+  getTimeTableForTeacher,
+} = require("../../controllers/time_table/teacher_time_table");
 
 //Bring the authorization functions
 const auth = require("../../middlewares/admin_auth");
@@ -22,6 +22,6 @@ router.route("/updateTimeTable").put(auth, updateTimeTable);
 router.route("/getTimeTable").get(getTimeTable);
 router.route("/deleteTimeTable").delete(auth, deleteTimeTable);
 router.route("/relateTimeTable").post(auth, relateTimeTable);
-router.route("/getTimeTableForClass").get(getTimeTableForClass);
+router.route("/getTimeTableForTeacher").get(getTimeTableForTeacher);
 
 module.exports = router;

@@ -112,7 +112,9 @@ exports.createClass = async (req, res, next) => {
       next,
       error,
       "Error adding a class in createClass function",
-      "Error adding a class"
+      error.code == 11000
+        ? "Class already present with this name"
+        : "Error adding a class"
     );
   }
 };

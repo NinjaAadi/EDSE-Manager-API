@@ -10,11 +10,15 @@ const logger = require("./logger/logger");
 const cluster = require("cluster");
 const os = require("os");
 const client = require("./redis/init_redis");
+
 //Connect to the database
 const connectDb = require("./database/database_mongodb");
 connectDb();
 
 const app = express();
+
+//Set static folder
+app.use("/", express.static(path.join(__dirname, "public")));
 
 //Middleware function for file upload
 app.use(fileUpload());
@@ -33,6 +37,7 @@ const noticeRoute = require("./routes/notice/notice");
 const dayRoute = require("./routes/day/day");
 const timeRoute = require("./routes/time/time");
 const timeTableRoute = require("./routes/time_table/time_table");
+const teacherTimeTable = require("./routes/time_table/teacher_time_table");
 const attendanceRoute = require("./routes/attendance/attendance");
 const reviewRoute = require("./routes/review/review");
 const studentSignUpRoute = require("./routes/signup/student_signup");
@@ -58,6 +63,7 @@ app.use(`/${process.env.API_INITIAL_URL}notice/`, noticeRoute);
 app.use(`/${process.env.API_INITIAL_URL}day/`, dayRoute);
 app.use(`/${process.env.API_INITIAL_URL}time/`, timeRoute);
 app.use(`/${process.env.API_INITIAL_URL}timeTable/`, timeTableRoute);
+app.use(`/${process.env.API_INITIAL_URL}teacherTimeTable/`, teacherTimeTable);
 app.use(`/${process.env.API_INITIAL_URL}attendance/`, attendanceRoute);
 app.use(`/${process.env.API_INITIAL_URL}review/`, reviewRoute);
 app.use(`/${process.env.API_INITIAL_URL}signUp/`, studentSignUpRoute);
