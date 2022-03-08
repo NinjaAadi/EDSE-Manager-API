@@ -17,7 +17,7 @@ const authorize = async (req, res, next) => {
   try {
     //Bring the jwt token
     const token = req.header("auth-token");
-
+    console.log(token);
     //If there is no token then return
     if (token == null) {
       return await errorHandler(
