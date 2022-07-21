@@ -35,12 +35,15 @@ exports.addTimeTable = async (req, res, next) => {
     }
 
     //Insert the time table into the database
-    await timeTableSchema.create({ timeTable: timeTable });
+    const finalTimeTable = await timeTableSchema.create({
+      timeTable: timeTable,
+    });
 
     //Return the response
     return res.status(200).json({
       success: true,
       messege: "Time table inserted successfully!",
+      id: finalTimeTable._id,
     });
   } catch (error) {
     return await errorHandler(
@@ -48,7 +51,9 @@ exports.addTimeTable = async (req, res, next) => {
       next,
       error,
       "Error adding a timeTable in addTimeTable function",
-      "Error adding a time table"
+      error.name == "ValidationError"
+        ? "Please provide a valid value for timetable"
+        : "Error adding a time table"
     );
   }
 };
@@ -251,7 +256,7 @@ exports.relateTimeTable = async (req, res, next) => {
     });
     //Check if the class is already having a time table or not
     if (timeTableRelation != null) {
-      timeTableRelation.classId = classId;
+      timeTableRelation.timeTableId = timeTableId;
       await timeTableRelation.save();
     } else {
       //Enter the details
@@ -284,6 +289,7 @@ exports.getTimeTableForClass = async (req, res, next) => {
   try {
     //Get the time table id and for which is it to relate from the url
     const { classId } = req.query;
+
 
     //Validate the teacher Id
     if (

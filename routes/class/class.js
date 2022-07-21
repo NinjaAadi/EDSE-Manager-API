@@ -11,6 +11,8 @@ const {
   getClassByTeacherId,
   addStudentToClass,
   deleteStudentFromClass,
+  getAllClass,
+  getClassById,
 } = require("../../controllers/class/class");
 
 //Bring the authorization functions
@@ -23,5 +25,7 @@ router.route("/deleteClass").delete(auth, deleteClass);
 router.route("/getClass").get(getClassByTeacherId);
 router.route("/addStudent").post(auth, addStudentToClass);
 router.route("/deleteStudent").delete(auth, deleteStudentFromClass);
+router.route("/getAllClass").get(getAllClass);
+router.route("/getClassById").get(getClassById);
 
 module.exports = router;

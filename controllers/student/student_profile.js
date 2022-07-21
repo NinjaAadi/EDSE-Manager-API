@@ -23,7 +23,7 @@ exports.addStudentProfile = async (req, res, next) => {
   try {
     //Get the profile from req.body
     const profileImage = req.files ? req.files.file : null;
-
+    console.log(profileImage);
     //Get all the fields
     let {
       fullName,
@@ -47,9 +47,6 @@ exports.addStudentProfile = async (req, res, next) => {
       isValid(parentNumber, 10) == false ||
       isValid(fatherName) == false ||
       isValid(motherName) == false ||
-      isValid(transportAddress) == false ||
-      isValid(role) == false ||
-      isValid(courses) == false ||
       isValidFile(profileImage) == false ||
       validGender(gender) == false ||
       validDate(birthday) == false
@@ -164,9 +161,6 @@ exports.updateStudentProfile = async (req, res, next) => {
       isValid(parentNumber, 10) == false ||
       isValid(fatherName) == false ||
       isValid(motherName) == false ||
-      isValid(transportAddress) == false ||
-      isValid(role) == false ||
-      isValid(courses) == false ||
       validGender(gender) == false ||
       validDate(birthday) == false ||
       (isProfileImageToBeUpdated ? isValidFile(profileImage) == false : false)
@@ -300,6 +294,7 @@ exports.getStudentProfile = async (req, res, next) => {
       data: studentProfile,
     });
   } catch (error) {
+    print(error);
     return await errorHandler(
       res,
       next,

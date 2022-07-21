@@ -13,7 +13,7 @@ const {
 //Bring the authorization functions
 const auth = require("../../middlewares/admin_teacher_auth");
 //Routes
-router.route("/addRoleValue").post(auth, addRole);
+router.route("/addRoleValue").post(addRole);
 router.route("/deleteRoleValue").delete(auth, deleteRole);
 router.route("/updateRoleValue").put(auth, updateRole);
 router.route("/getRole").get(getRoleById);

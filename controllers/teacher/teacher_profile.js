@@ -38,9 +38,6 @@ exports.addTeacherProfile = async (req, res, next) => {
       isValid(fullName) == false ||
       isValid(address) == false ||
       isValid(phoneNumber, 10) == false ||
-      isValid(transportAddress) == false ||
-      isValid(role) == false ||
-      isValid(courses) == false ||
       isValidFile(profileImage) == false ||
       validGender(gender) == false ||
       validDate(birthday) == false

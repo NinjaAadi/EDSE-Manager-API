@@ -35,12 +35,15 @@ exports.addTimeTable = async (req, res, next) => {
     }
 
     //Insert the time table into the database
-    await TeacherTimeTableSchema.create({ timeTable: timeTable });
+    const teacherTimeTable = await TeacherTimeTableSchema.create({
+      timeTable: timeTable,
+    });
 
     //Return the response
     return res.status(200).json({
       success: true,
       messege: "Time table inserted successfully!",
+      id: teacherTimeTable._id,
     });
   } catch (error) {
     return await errorHandler(
@@ -48,7 +51,9 @@ exports.addTimeTable = async (req, res, next) => {
       next,
       error,
       "Error adding a timeTable in addTimeTable function",
-      "Error adding a time table"
+      error.name == "ValidationError"
+        ? "Please provide a valid value for timetable"
+        : "Error adding a time table"
     );
   }
 };
@@ -107,8 +112,10 @@ exports.updateTimeTable = async (req, res, next) => {
       res,
       next,
       error,
-      "Error updating a timeTable in updateTimeTable function",
-      "Error updating a time table"
+      "Error updating a timeTable in addTimeTable function",
+      error.name == "ValidationError"
+        ? "Please provide a valid value for timetable"
+        : "Error updating a time table"
     );
   }
 };
@@ -254,7 +261,7 @@ exports.relateTimeTable = async (req, res, next) => {
     });
     //Check if the teacher is already having a time table or not
     if (timeTableRelation != null) {
-      timeTableRelation.teacherId = teacherId;
+      timeTableRelation.timeTableId = timeTableId;
       await timeTableRelation.save();
     } else {
       //Enter the details
@@ -316,6 +323,22 @@ exports.getTimeTableForTeacher = async (req, res, next) => {
           },
           {
             path: "dayTimeTable.className",
+            populate: [
+              {
+                path: "students",
+                populate: [
+                  {
+                    path: "courses",
+                  },
+                  {
+                    path: "transportAddress",
+                  },
+                  {
+                    path: "role",
+                  },
+                ],
+              },
+            ],
           },
           {
             path: "dayTimeTable.subject",

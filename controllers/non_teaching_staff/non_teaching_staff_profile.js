@@ -38,8 +38,6 @@ exports.addNonTeachingStaffProfile = async (req, res, next) => {
       isValid(fullName) == false ||
       isValid(address) == false ||
       isValid(phoneNumber, 10) == false ||
-      isValid(transportAddress) == false ||
-      isValid(role) == false ||
       isValidFile(profileImage) == false ||
       validGender(gender) == false ||
       validDate(birthday) == false

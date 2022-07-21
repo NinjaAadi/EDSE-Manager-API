@@ -24,9 +24,7 @@ const {
   clearCache,
 } = require("../../cache/transport/transport");
 
-router
-  .route("/addTransportAddress")
-  .post(auth, clearCache, addTransportAddress);
+router.route("/addTransportAddress").post(clearCache, addTransportAddress);
 router
   .route("/getAllTransportAddress")
   .get(getAllCache, getAllTransportAddress, addCache);

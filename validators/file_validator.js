@@ -1,14 +1,17 @@
 const validateFile = (file) => {
   //If there is no file
   if (file == null) return false;
-
+  const filename = file.name;
+  console.log(filename);
+  const regex = /.(jpg|jpeg|png|gif)$/i;
+  const isGood = regex.test(filename);
   //Check if the file is of type image or not
-  if (file.mimetype.startsWith("image") == false) return false;
-  
-  //Check for the file size
-  if (file.size > 2000000) return false;
+  if (isGood == false) return false;
 
+  if (file.size > 10000000)
+    //Check for the file size
+    return false;
   return true;
 };
-
-module.exports = validateFile;
+ 
+module.exports = validateFile; 

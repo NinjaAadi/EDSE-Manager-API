@@ -6,13 +6,14 @@ const isValidTimeTable = (timeTable) => {
     //validate the day id
     if (isValidId(timeTable[i].dayName) == false) return false;
     for (var j = 0; j < timeTable[i].dayTimeTable.length; j++) {
-      //Get all the time id and the course id
       const timeId = timeTable[i].dayTimeTable[j].time;
       const courseId = timeTable[i].dayTimeTable[j].subject;
 
-      //Validate the time and course ids.
-      if (isValidId(timeId) == false || isValidId(courseId) == false)
+      //Validate the timeId, courseId, and the classId
+      if (isValidId(timeId) == false) {
         return false;
+      }
+      if (courseId == "") continue;
     }
   }
   return true;

@@ -336,7 +336,20 @@ exports.getClassByTeacherId = async (req, res, next) => {
     //Find the class and if there is no class then return that there is no class present
     const classProfiles = await classSchema
       .find({ teacher: teacherId })
-      .populate("students", "fullName");
+      .populate({
+        path: "students",
+        populate: [
+          {
+            path: "courses",
+          },
+          {
+            path: "transportAddress",
+          },
+          {
+            path: "role",
+          },
+        ],
+      });
 
     //Return the result
     return res.status(200).json({
@@ -353,7 +366,34 @@ exports.getClassByTeacherId = async (req, res, next) => {
     );
   }
 };
-
+/*
+@desc: Get all class
+@access: Public
+*/
+exports.getAllClass = async (req, res, next) => {
+  try {
+    const allClasses = await classSchema.find().populate({
+      path: "students",
+      populate: [
+        { path: "role" },
+        { path: "courses" },
+        { path: "transportAddress" },
+      ],
+    });
+    return res.status(200).json({
+      success: true,
+      data: allClasses,
+    });
+  } catch (error) {
+    return await errorHandler(
+      res,
+      next,
+      error,
+      "Error fetching classes in getAllClass function",
+      "Error fetching classes"
+    );
+  }
+};
 /*
 @desc: Add a student to the class
 @access: Private
@@ -511,6 +551,63 @@ exports.deleteStudentFromClass = async (req, res, next) => {
       error,
       "Error deleting student to class in deleteStudentFromClass function",
       "Error deleting student to the class"
+    );
+  }
+};
+/*
+@desc: Fetch a class by id
+@access: Public
+*/
+exports.getClassById = async (req, res, next) => {
+  try {
+    const classId = req.query.classId;
+    //Validate the class id
+    if (isValidId(classId) == false) {
+      return await errorHandler(
+        res,
+        next,
+        null,
+        "Error fetching class in getClassById function",
+        "Please provide a valid class id"
+      );
+    }
+    const classData = await classSchema.findOne({ _id: classId }).populate({
+      path: "students",
+      populate: [
+        {
+          path: "courses",
+        },
+        {
+          path: "transportAddress",
+        },
+        {
+          path: "role",
+        },
+      ],
+    });
+    if (classData == null) {
+      return await errorHandler(
+        res,
+        next,
+        null,
+        "Error fetching class in getClassById function",
+        "Please provide a valid class id"
+      );
+    }
+    //return the result
+    return res.status(200).json({
+      success: true,
+      data: classData,
+    });
+
+    //Return the result
+  } catch (error) {
+    return await errorHandler(
+      res,
+      next,
+      error,
+      "Error fetching class in getClassById function",
+      "Error fetching class"
     );
   }
 };

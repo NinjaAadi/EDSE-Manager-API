@@ -16,7 +16,7 @@ const auth = require("../../middlewares/admin_teacher_auth");
 
 router.route("/addReview").post(auth, addReview);
 router.route("/updateReview").put(auth, updateReview);
-router.route("/getReviews").get(auth, getReview);
+router.route("/getReviews").get(getReview);
 router.route("/deleteReview").delete(auth, deleteReview);
 
 module.exports = router;

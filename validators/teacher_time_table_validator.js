@@ -12,11 +12,11 @@ const isValidTimeTable = (timeTable) => {
       const classId = timeTable[i].dayTimeTable[j].className;
 
       //Validate the timeId, courseId, and the classId
-      if (
-        isValidId(timeId) == false ||
-        isValidId(courseId) == false ||
-        isValidId(classId) == false
-      ) {
+      if (isValidId(timeId) == false) {
+        return false;
+      }
+      if (courseId == "" && classId == "") continue;
+      if (courseId == "" || classId == "") {
         return false;
       }
     }

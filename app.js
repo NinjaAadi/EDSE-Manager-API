@@ -23,8 +23,10 @@ app.use("/", express.static(path.join(__dirname, "public")));
 //Middleware function for file upload
 app.use(fileUpload());
 
+//Limit size
+// app.use(express.limit(100000000));
 /*Middleware function to use request.body */
-app.use(express.json());
+app.use(express.json({ limit: 100000000 }));
 
 //import all the route files
 const studentProfileRoute = require("./routes/student/student_profile");

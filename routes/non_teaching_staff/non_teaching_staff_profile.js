@@ -13,7 +13,7 @@ const {
 const auth = require("../../middlewares/admin_auth");
 
 //Routes
-router.route("/createProfile").post(auth, addNonTeachingStaffProfile);
+router.route("/createProfile").post(addNonTeachingStaffProfile);
 router.route("/updateProfile").put(auth, updateNonTeachingStaffProfile);
 router.route("/getProfile").get(getNonTeachingStaffProfile);
 router.route("/deleteProfile").delete(auth, deleteNonTeachingStaffProfile);

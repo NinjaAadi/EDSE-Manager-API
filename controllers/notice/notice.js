@@ -13,7 +13,6 @@ const noticeSchema = require("../../models/notice/notice");
 //Bring the teacher Schema for validation
 const teacherSchema = require("../../models/teacher/teacher_profile");
 
-
 /*
 @desc: Add a notice
 @access: Private
@@ -23,6 +22,7 @@ exports.addNotice = async (req, res, next) => {
   try {
     //Get the file
     const noticeImage = req.files == null ? null : req.files.file;
+    console.log(noticeImage);
 
     //Get the department
     const department = req.query.department;
@@ -47,7 +47,13 @@ exports.addNotice = async (req, res, next) => {
     }
     //Get the fields from req.body
     const { heading, date, body, signedBy } = req.body;
-
+    console.log(
+      isValid(heading) == false,
+      validDate(date) == false,
+      isValid(body) == false,
+      isValidId(signedBy) == false,
+      isValidImage(noticeImage) == false
+    );
     //Validate the fields
     if (
       isValid(heading) == false ||

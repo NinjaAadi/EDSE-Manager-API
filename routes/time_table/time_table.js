@@ -17,11 +17,11 @@ const {
 const auth = require("../../middlewares/admin_auth");
 
 //Routes
-router.route("/addTimeTable").post(auth, addTimeTable);
+router.route("/addTimeTable").post(addTimeTable);
 router.route("/updateTimeTable").put(auth, updateTimeTable);
 router.route("/getTimeTable").get(getTimeTable);
 router.route("/deleteTimeTable").delete(auth, deleteTimeTable);
-router.route("/relateTimeTable").post(auth, relateTimeTable);
+router.route("/relateTimeTable").post(relateTimeTable);
 router.route("/getTimeTableForClass").get(getTimeTableForClass);
 
 module.exports = router;
